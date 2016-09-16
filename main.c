@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "openHash.h"
 #include "indice.h"
 
@@ -30,20 +31,28 @@ int main(int argc, char const *argv[])
 
 	//printaHash(h);
 
-	/*FILE *arq = fopen("testes/texto1.txt", "rt");
+	//FILE *arq = fopen("testes/texto1.txt", "rt");
 
-	char plv[3000] = "Existe mais de 543 milhoes de dinheiros no mundo";
+	//char plv[3000] = "Existe mais de 543 milhoes de dinheiros no mundo";
 
-	while(fgets(plv, 3000, arq) != NULL)
-	{
+	//while(fgets(plv, 3000, arq) != NULL)
+	//{
 
-	int inicio = 0;
+	/*int inicio = 0;
+	int i;
 	int fim = strlen(plv);
 	char* plv2;
 	
 	plv2 = buscaPalavra(&inicio, &fim, plv);
 	while(plv2 != NULL)
 	{
+	for(i = 0; i < strlen(plv2); i++)
+			{
+				if(isupper(plv2[i]))
+				{
+					plv2[i] = tolower(plv2[i]);
+				}
+			}
 		printf("%s\n", plv2);
 		inicio = fim;
 		fim = strlen(plv);
@@ -51,7 +60,7 @@ int main(int argc, char const *argv[])
 		plv2 = buscaPalavra(&inicio, &fim, plv);
 	}
 
-	}*/
+	//}*/
 
 	FILE* indiceSaida = fopen(argv[3], "wt");
 

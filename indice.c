@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "openHash.h"
 #include "indice.h"
 
@@ -21,6 +22,9 @@ void inserirPalavras(Hash hash, const char* arqPalvrasChave)
 		{
 			for(i = 0; (pvlLida[i] >= 'A' && pvlLida[i] <= 'z') || (pvlLida[i] >= '0' && pvlLida[i] <= '9'); i++);
 			pvlLida[i] = '\0';
+
+			filtragemPalavras(pvlLida);
+
 			insereHash(hash, pvlLida);
 		}
 	}
@@ -83,6 +87,9 @@ void criaIndice(Hash hash, const char* palavrasChave, const char* texto)
 			inicioLinha = fimLinha;
 			fimLinha = strlen(linha);
 
+			/*Realiza a filtragem da palavra*/
+			filtragemPalavras(palavra);
+
 			insereOcorrencia(hash, palavra, Contlinha);	
 
 			free(palavra);
@@ -91,4 +98,16 @@ void criaIndice(Hash hash, const char* palavrasChave, const char* texto)
 	}
 
 	fclose(arq);
+}
+
+void filtragemPalavras(char* palavra)
+{
+	int i;
+	for(i = 0; i < strlen(palavra); i++)
+	{
+		if(isupper(palavra[i]))
+		{
+			palavra[i] = tolower(palavra[i]);
+		}
+	}
 }

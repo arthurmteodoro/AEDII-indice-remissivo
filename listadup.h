@@ -17,6 +17,6 @@ extern void printaLista(Lista l, FILE* arquivo);
 extern void destroiLista(Lista l);
 extern void mudaValorLista(Lista l, int pos, int valor);
 extern int tamanhoLista(Lista l);
-
+extern int existeLista(Lista l, int valor);
 
 #endif

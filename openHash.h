@@ -6,7 +6,7 @@
 #ifndef _OPENHASH_
 #define _OPENHASH_
 
-#define N 6
+#define N 124
 
 typedef struct palavra *Palavra;
 typedef Palavra *Hash;

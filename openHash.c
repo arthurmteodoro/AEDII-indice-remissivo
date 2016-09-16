@@ -135,7 +135,10 @@ void insereOcorrencia(Hash hash, char* palavra, int linha)
 {
 	Palavra plv = buscaHash(hash, palavra);
 	if(plv != NULL)
-		insereLista(plv->ocorrencias, tamanhoLista(plv->ocorrencias), linha);
+	{
+		if(!existeLista(plv->ocorrencias, linha))
+			insereLista(plv->ocorrencias, tamanhoLista(plv->ocorrencias), linha);
+	}
 }
 
 /*=======================================================================*/

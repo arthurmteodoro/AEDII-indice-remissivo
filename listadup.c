@@ -187,3 +187,15 @@ int tamanhoLista(Lista l)
 {
 	 return l->tam;
 }
+
+int existeLista(Lista l, int valor)
+{
+	Nodo aux = l->inicio;
+	while(aux != NULL)
+	{
+		if(aux->valor == valor)
+			return 1;
+		aux = aux->prox;
+	}
+	return 0;
+}
