@@ -5,21 +5,28 @@
 /*=======================================================================*/
 
 /*=======================================================================*/
-/**/
+/*                        BIBLIOTECAS USADAS                             */
 /*=======================================================================*/
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <string.h>
 #include "openHash.h"
 #include "listadup.h"
 
+/*=======================================================================*/
+/*                         ESTRUTURA CRIADA                              */
+/*=======================================================================*/
 struct palavra
 {
 	char plv[33];
 	Lista ocorrencias;
 };
 
+
+/*=======================================================================*/
+/*FUNCAO HASH - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                   */
+/*IN: PALAVRA   OUT: POSICAO                                             */
+/*=======================================================================*/
 int funcaoHash(char* palavra)
 {
 	unsigned int ascii = 0;
@@ -33,10 +40,13 @@ int funcaoHash(char* palavra)
 	return ascii % N;
 }
 
+/*=======================================================================*/
+/*CRIA HASH - FUNCAO DE CRIACAO DA HASH                                  */
+/*IN: VOID   OUT: PONTEIRO PARA HASH                                     */
+/*=======================================================================*/
 Hash criaHash(void)
 {
 	int i;
-	//srand(time(NULL));
 	Hash hash = (Hash) malloc(sizeof(Palavra)*N);
 	for(i = 0; i < N; i++)
 	{
@@ -46,6 +56,10 @@ Hash criaHash(void)
 	return hash;
 }
 
+/*=======================================================================*/
+/*DESTROI HASH - FUNCAO DE DESTRUICAO DA HASH                            */
+/*IN: PONTEIRO PARA HASH   OUT: VOID                                     */
+/*=======================================================================*/
 void destroiHash(Hash hash)
 {
 	if(hash != NULL)
@@ -65,10 +79,17 @@ void destroiHash(Hash hash)
 	return;
 }
 
+/*=======================================================================*/
+/*INSERE HASH - FUNCAO RESPONSAVEL POR INSERIR PALAVRA                   */
+/*IN: HASH E PALAVRA A INSERIR   OUT: PONTEIRO PARA PALAVRA              */
+/*=======================================================================*/
 Palavra insereHash(Hash hash, char* palavra)
 {
 	int posicao = funcaoHash(palavra);
 	int posicoesVerificadas = 1;
+
+	if(buscaHash(hash, palavra) != NULL)
+		return NULL;
 
 	while(hash[posicao] != NULL || posicoesVerificadas == N)
 	{
@@ -86,6 +107,10 @@ Palavra insereHash(Hash hash, char* palavra)
 
 }
 
+/*=======================================================================*/
+/*BUSCA HASH - FUNCAO DE BUSCA DA HASH                                   */
+/*IN: HASH E PALAVRA A BUSCAR   OUT: PONTEIRO PARA PALAVRA               */
+/*=======================================================================*/
 Palavra buscaHash(Hash hash, char* palavra)
 {
 	int posicao = funcaoHash(palavra);
@@ -100,4 +125,33 @@ Palavra buscaHash(Hash hash, char* palavra)
 		posicoesVerificadas++;
 	}
 	return NULL;
+}
+
+/*=======================================================================*/
+/*INSERE OCORRENCIA - FUNCAO RESPONSAVEL POR INSERIR LINHA               */
+/*IN: HASH, PALAVRA E LINHA   OUT: VOID                                  */
+/*=======================================================================*/
+void insereOcorrencia(Hash hash, char* palavra, int linha)
+{
+	Palavra plv = buscaHash(hash, palavra);
+	if(plv != NULL)
+		insereLista(plv->ocorrencias, tamanhoLista(plv->ocorrencias), linha);
+}
+
+/*=======================================================================*/
+/*PRINTA HASH - FUNCAO RESPONSAVEL POR IMPRIMIR HASH                     */
+/*IN: HASH   OUT: VOID                                                   */
+/*=======================================================================*/
+void printaHash(Hash hash, FILE* arquivo)
+{
+
+	int i;
+	for(i = 0; i < N; i++)
+	{
+		if(hash[i] != NULL)
+		{
+			fprintf(arquivo, "%s - ", hash[i]->plv);
+			printaLista(hash[i]->ocorrencias, arquivo);
+		}
+	}
 }

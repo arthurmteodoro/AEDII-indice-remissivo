@@ -145,15 +145,15 @@ int retiraListaPos(Lista p, int pos)
 	}
 };
 
-void printaLista(Lista l)
+void printaLista(Lista l, FILE* arquivo)
 {
 	Nodo aux = l->inicio;
 	while(aux != NULL)
 	{
-		printf("%d -> ", aux->valor);
+		fprintf(arquivo, "%d  ", aux->valor);
 		aux = aux->prox;
 	};
-	printf("\n");
+	fprintf(arquivo, "\n");
 };
 
 void destroiLista(Lista l)

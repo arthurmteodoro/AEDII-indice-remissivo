@@ -16,5 +16,7 @@ extern void destroiHash(Hash hash);
 extern int funcaoHash(char* palavra);
 extern Palavra insereHash(Hash hash, char* palavra);
 extern Palavra buscaHash(Hash hash, char* palavra);
+extern void insereOcorrencia(Hash hash, char* palavra, int linha);
+extern void printaHash(Hash hash, FILE* arquivo);
 
 #endif

@@ -13,9 +13,10 @@ extern Lista criaLista(void);
 extern int insereLista(Lista p,int pos ,int valor);
 extern int vaziaLista(Lista p);
 extern int retiraListaPos(Lista p, int pos);
-extern void printaLista(Lista l);
+extern void printaLista(Lista l, FILE* arquivo);
 extern void destroiLista(Lista l);
 extern void mudaValorLista(Lista l, int pos, int valor);
 extern int tamanhoLista(Lista l);
+
 
 #endif
