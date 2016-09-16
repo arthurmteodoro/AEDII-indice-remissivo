@@ -72,21 +72,23 @@ void criaIndice(Hash hash, const char* palavrasChave, const char* texto)
 
 	while(fgets(linha, 5000, arq) != NULL)
 	{
+		Contlinha++;
+
 		inicioLinha = 0;
 		fimLinha = strlen(linha);
-		Contlinha++;
 
 		palavra = buscaPalavra(&inicioLinha, &fimLinha, linha);
 		while(palavra != NULL)
 		{
-			printf("%s\n", palavra);
-			//insereOcorrencia(hash, palavra, Contlinha);
-
 			inicioLinha = fimLinha;
-			fimLinha = strlen(palavra);
+			fimLinha = strlen(linha);
 
-			//free(palavra);
-			palavra = buscaPalavra(&inicioLinha, &fimLinha, palavra);
+			insereOcorrencia(hash, palavra, Contlinha);	
+
+			free(palavra);
+			palavra = buscaPalavra(&inicioLinha, &fimLinha, linha);
 		}
 	}
+
+	fclose(arq);
 }

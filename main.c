@@ -30,7 +30,13 @@ int main(int argc, char const *argv[])
 
 	//printaHash(h);
 
-	/*char plv[3000] = "Existe mais de 543 milhoes de dinheiros no mundo";
+	/*FILE *arq = fopen("testes/texto1.txt", "rt");
+
+	char plv[3000] = "Existe mais de 543 milhoes de dinheiros no mundo";
+
+	while(fgets(plv, 3000, arq) != NULL)
+	{
+
 	int inicio = 0;
 	int fim = strlen(plv);
 	char* plv2;
@@ -41,12 +47,19 @@ int main(int argc, char const *argv[])
 		printf("%s\n", plv2);
 		inicio = fim;
 		fim = strlen(plv);
+		free(plv2);
 		plv2 = buscaPalavra(&inicio, &fim, plv);
 	}
 
-	free(plv2);*/
+	}*/
+
+	FILE* indiceSaida = fopen(argv[3], "wt");
 
 	criaIndice(h, argv[1], argv[2]);
+
+	printaHash(h, indiceSaida);
+
+	fclose(indiceSaida);
 
 	destroiHash(h);
 
