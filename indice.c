@@ -10,6 +10,24 @@
 #include "openHash.h"
 #include "indice.h"
 
+int contaPalavrasChave(const char* arqPalvrasChave)
+{
+	FILE *arq = fopen(arqPalvrasChave, "rt");
+	char palavra[33];
+	int cont = 0;
+
+	while(fgets(palavra, 33, arq) != NULL)
+	{
+		if(strlen(palavra) >= 4)
+		{
+			cont++;
+		}
+	}
+
+	fclose(arq);
+	return cont;
+}
+
 void inserirPalavras(Hash hash, const char* arqPalvrasChave)
 {
 	FILE* pvlChaves = fopen(arqPalvrasChave, "rt");
@@ -24,7 +42,6 @@ void inserirPalavras(Hash hash, const char* arqPalvrasChave)
 			pvlLida[i] = '\0';
 
 			filtragemPalavras(pvlLida);
-
 			insereHash(hash, pvlLida);
 		}
 	}

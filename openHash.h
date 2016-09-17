@@ -9,11 +9,11 @@
 #define N 124
 
 typedef struct palavra *Palavra;
-typedef Palavra *Hash;
+typedef struct hash *Hash;
 
-extern Hash criaHash(void);
+extern Hash criaHash(int tam);
 extern void destroiHash(Hash hash);
-extern int funcaoHash(char* palavra);
+extern int funcaoHash(char* palavra, int tam);
 extern Palavra insereHash(Hash hash, char* palavra);
 extern Palavra buscaHash(Hash hash, char* palavra);
 extern void insereOcorrencia(Hash hash, char* palavra, int linha);

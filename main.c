@@ -12,63 +12,28 @@
 
 int main(int argc, char const *argv[])
 {
-
-	Hash h = criaHash();
-
-	/*insereHash(h,"roma");
-	insereHash(h,"amor");
-
-	insereOcorrencia(h, "roma", 1);
-	insereOcorrencia(h, "roma", 2);
-	insereOcorrencia(h, "amor", 3);
-	insereOcorrencia(h, "amor", 4);
-
-	FILE* arq = fopen(argv[2], "wt");
-
-	printaHash(h, arq);*/
-
-	//inserirPalavras(h, "testes/palavraschave1.txt");
-
-	//printaHash(h);
-
-	//FILE *arq = fopen("testes/texto1.txt", "rt");
-
-	//char plv[3000] = "Existe mais de 543 milhoes de dinheiros no mundo";
-
-	//while(fgets(plv, 3000, arq) != NULL)
-	//{
-
-	/*int inicio = 0;
-	int i;
-	int fim = strlen(plv);
-	char* plv2;
-	
-	plv2 = buscaPalavra(&inicio, &fim, plv);
-	while(plv2 != NULL)
+	/*Verificação de erros*/
+	if(argc != 4)
 	{
-	for(i = 0; i < strlen(plv2); i++)
-			{
-				if(isupper(plv2[i]))
-				{
-					plv2[i] = tolower(plv2[i]);
-				}
-			}
-		printf("%s\n", plv2);
-		inicio = fim;
-		fim = strlen(plv);
-		free(plv2);
-		plv2 = buscaPalavra(&inicio, &fim, plv);
+		printf("ERRO - Quantidade de arquivos inválida\n");
+		printf("USO: ./main.out <palavraschave> <texto> <saida>\n");
+		exit(1);
 	}
+	FILE* arqTeste1 = fopen(argv[1], "rt");
+	FILE* arqTeste2 = fopen(argv[2], "rt");
+	if(arqTeste1 == NULL || arqTeste2 == NULL)
+	{
+		printf("ERRO - arquivos de palavras chave ou texto nao existem\n");
+		exit(1);
+	}
+	fclose(arqTeste1);
+	fclose(arqTeste2);
 
-	//}*/
+	int quantPalavras = contaPalavrasChave(argv[1]);
 
-	FILE* indiceSaida = fopen(argv[3], "wt");
+	Hash h = criaHash(quantPalavras);
 
 	criaIndice(h, argv[1], argv[2]);
-
-	printaHash(h, indiceSaida);
-
-	fclose(indiceSaida);
 
 	destroiHash(h);
 

@@ -22,12 +22,18 @@ struct palavra
 	Lista ocorrencias;
 };
 
+struct hash
+{
+	int tam;
+	struct palavra **vetor;
+};
+
 
 /*=======================================================================*/
 /*FUNCAO HASH - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                   */
 /*IN: PALAVRA   OUT: POSICAO                                             */
 /*=======================================================================*/
-int funcaoHash(char* palavra)
+int funcaoHash(char* palavra, int tam)
 {
 	unsigned int ascii = 0;
 	int i;
@@ -37,22 +43,23 @@ int funcaoHash(char* palavra)
 		ascii = ascii + (palavra[i-1] * i);
 	}
 
-	return ascii % N;
+	return ascii % tam;
 }
 
 /*=======================================================================*/
 /*CRIA HASH - FUNCAO DE CRIACAO DA HASH                                  */
 /*IN: VOID   OUT: PONTEIRO PARA HASH                                     */
 /*=======================================================================*/
-Hash criaHash(void)
+Hash criaHash(int tam)
 {
 	int i;
-	Hash hash = (Hash) malloc(sizeof(Palavra)*N);
-	for(i = 0; i < N; i++)
+	Hash hash = (Hash) malloc(sizeof(struct hash));
+	hash->tam = tam;
+	hash->vetor = (Palavra*) malloc(sizeof(Palavra)*tam);
+	for(i = 0; i < tam; i++)
 	{
-		hash[i] = NULL;
+		hash->vetor[i] = NULL;
 	}
-
 	return hash;
 }
 
@@ -65,12 +72,12 @@ void destroiHash(Hash hash)
 	if(hash != NULL)
 	{
 		int i;
-		for(i = 0; i < N; i++)
+		for(i = 0; i < hash->tam; i++)
 		{
-			if(hash[i] != NULL)
+			if(hash->vetor[i] != NULL)
 			{
-				destroiLista(hash[i]->ocorrencias);
-				free(hash[i]);
+				destroiLista(hash->vetor[i]->ocorrencias);
+				free(hash->vetor[i]);
 			}
 		}
 
@@ -85,25 +92,25 @@ void destroiHash(Hash hash)
 /*=======================================================================*/
 Palavra insereHash(Hash hash, char* palavra)
 {
-	int posicao = funcaoHash(palavra);
+	int posicao = funcaoHash(palavra, hash->tam);
 	int posicoesVerificadas = 1;
 
 	if(buscaHash(hash, palavra) != NULL)
 		return NULL;
 
-	while(hash[posicao] != NULL || posicoesVerificadas == N)
+	while(hash->vetor[posicao] != NULL || posicoesVerificadas == hash->tam)
 	{
-		posicao = (posicao+1)%N;
+		posicao = (posicao+1)%hash->tam;
 		posicoesVerificadas++;
 	}
 
-	if(posicoesVerificadas == N)
+	if(posicoesVerificadas == hash->tam)
 		return NULL;
 
-	hash[posicao] = (Palavra) malloc(sizeof(struct palavra));
-	strcpy(hash[posicao]->plv, palavra);
-	hash[posicao]->ocorrencias = criaLista();
-	return hash[posicao];
+	hash->vetor[posicao] = (Palavra) malloc(sizeof(struct palavra));
+	strcpy(hash->vetor[posicao]->plv, palavra);
+	hash->vetor[posicao]->ocorrencias = criaLista();
+	return hash->vetor[posicao];
 
 }
 
@@ -113,15 +120,15 @@ Palavra insereHash(Hash hash, char* palavra)
 /*=======================================================================*/
 Palavra buscaHash(Hash hash, char* palavra)
 {
-	int posicao = funcaoHash(palavra);
-	int posicoesVerificadas = 1;
-	while(posicoesVerificadas < N)
+	int posicao = funcaoHash(palavra, hash->tam);
+	int posicoesVerificadas = 0;
+	while(posicoesVerificadas < hash->tam)
 	{
-		if(hash[posicao] != NULL && !strcmp(hash[posicao]->plv,palavra))
+		if(hash->vetor[posicao] != NULL && !strcmp(hash->vetor[posicao]->plv,palavra))
 		{
-			return hash[posicao];
+			return hash->vetor[posicao];
 		}
-		posicao = (posicao+1)%N;
+		posicao = (posicao+1)%hash->tam;
 		posicoesVerificadas++;
 	}
 	return NULL;
@@ -149,12 +156,12 @@ void printaHash(Hash hash, FILE* arquivo)
 {
 
 	int i;
-	for(i = 0; i < N; i++)
+	for(i = 0; i < hash->tam; i++)
 	{
-		if(hash[i] != NULL)
+		if(hash->vetor[i] != NULL)
 		{
-			fprintf(arquivo, "%s - ", hash[i]->plv);
-			printaLista(hash[i]->ocorrencias, arquivo);
+			fprintf(arquivo, "%s - ", hash->vetor[i]->plv);
+			printaLista(hash->vetor[i]->ocorrencias, arquivo);
 		}
 	}
 }
