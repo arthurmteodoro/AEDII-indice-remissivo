@@ -39,8 +39,6 @@ int main(int argc, char const *argv[])
 	/*Criação do indice*/
 	inserirPalavras(h, argv[1], vetor);
 
-	printaHash(h);
-
 	criaIndice(h, argv[2]);
 
 	geraSaida(h, argv[3], vetor, quantPalavras);
