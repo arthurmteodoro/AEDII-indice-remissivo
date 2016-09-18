@@ -6,7 +6,7 @@
 #ifndef _OPENHASH_
 #define _OPENHASH_
 
-#define N 124
+#include "listadup.h"
 
 typedef struct palavra *Palavra;
 typedef struct hash *Hash;
@@ -18,5 +18,8 @@ extern Palavra insereHash(Hash hash, char* palavra);
 extern Palavra buscaHash(Hash hash, char* palavra);
 extern void insereOcorrencia(Hash hash, char* palavra, int linha);
 extern void printaHash(Hash hash, FILE* arquivo);
+extern int tamanhoHash(Hash hash);
+extern char* retornaPalavra(Palavra plv);
+extern Lista retornaLista(Palavra plv);
 
 #endif

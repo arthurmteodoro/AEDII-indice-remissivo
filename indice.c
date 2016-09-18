@@ -7,8 +7,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "openHash.h"
+//#include "openHash.h"
+#include "hashEncadeada.h"
 #include "indice.h"
+
+static int comp(const void* p1, const void* p2)
+{
+	char** plv1 = (char**)p1;
+	char** plv2 = (char**)p2;
+
+	return strcmp((*plv1), (*plv2));
+}
 
 int contaPalavrasChave(const char* arqPalvrasChave)
 {
@@ -28,11 +37,11 @@ int contaPalavrasChave(const char* arqPalvrasChave)
 	return cont;
 }
 
-void inserirPalavras(Hash hash, const char* arqPalvrasChave)
+void inserirPalavras(Hash hash, const char* arqPalvrasChave, char** vetor)
 {
 	FILE* pvlChaves = fopen(arqPalvrasChave, "rt");
 	char pvlLida[33];
-	int i;
+	int i, cont = 0;
 
 	while(fgets(pvlLida, 33, pvlChaves) != NULL)
 	{
@@ -42,6 +51,8 @@ void inserirPalavras(Hash hash, const char* arqPalvrasChave)
 			pvlLida[i] = '\0';
 
 			filtragemPalavras(pvlLida);
+			strcpy(vetor[cont], pvlLida);
+			cont++;
 			insereHash(hash, pvlLida);
 		}
 	}
@@ -80,7 +91,7 @@ char* buscaPalavra(int *inicio, int *fim, char* frase)
 	return plv;
 }
 
-void criaIndice(Hash hash, const char* palavrasChave, const char* texto)
+void criaIndice(Hash hash, const char* texto)
 {
 	int Contlinha = 0;
 	int inicioLinha = 0;
@@ -88,7 +99,6 @@ void criaIndice(Hash hash, const char* palavrasChave, const char* texto)
 	char linha[5000];
 	char* palavra;
 
-	inserirPalavras(hash, palavrasChave);
 	FILE* arq = fopen(texto, "rt");
 
 	while(fgets(linha, 5000, arq) != NULL)
@@ -127,4 +137,43 @@ void filtragemPalavras(char* palavra)
 			palavra[i] = tolower(palavra[i]);
 		}
 	}
+}
+
+char** criaVetor(int tam)
+{
+	int i;
+	char** vetor = (char**) malloc(sizeof(char*)*tam);
+	for(i = 0; i < tam; i++)
+	{
+		vetor[i] = (char*) malloc(sizeof(char)*33);
+	}
+
+	return vetor;
+}
+
+void destroiVetor(char** vetor, int tam)
+{
+	int i;
+	for(i = 0; i < tam; i++)
+	{
+		free(vetor[i]);
+	}
+	free(vetor);
+	vetor = NULL;
+}
+
+void geraSaida(Hash hash, const char* arq, char** vetor, int tam)
+{
+	FILE* arquivo = fopen(arq, "wt");
+
+	qsort(vetor, tam, sizeof(char*), comp);
+
+	for(int i = 0; i < tam; i++)
+	{
+		Palavra palavra = buscaHash(hash, vetor[i]);
+		fprintf(arquivo, "%s - ", retornaPalavra(palavra));
+		printaLista(retornaLista(palavra), arquivo);
+	}
+
+	fclose(arquivo);
 }

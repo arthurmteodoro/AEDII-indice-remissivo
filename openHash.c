@@ -81,7 +81,9 @@ void destroiHash(Hash hash)
 			}
 		}
 
+		free(hash->vetor);
 		free(hash);
+		hash = NULL;
 	}
 	return;
 }
@@ -164,4 +166,31 @@ void printaHash(Hash hash, FILE* arquivo)
 			printaLista(hash->vetor[i]->ocorrencias, arquivo);
 		}
 	}
+}
+
+/*=======================================================================*/
+/*TAMANHO HASH - FUNCAO RESPONSAVEL POR RETORNAR TAMANHO HASH            */
+/*IN: HASH   OUT: INT                                                    */
+/*=======================================================================*/
+int tamanhoHash(Hash hash)
+{
+	return hash->tam;
+}
+
+/*=======================================================================*/
+/*RETORNA PALAVRA - FUNCAO QUE RETORNA A STRING DA STRUCT                */
+/*IN: PALAVRA   OUT: CHAR*                                               */
+/*=======================================================================*/
+char* retornaPalavra(Palavra plv)
+{
+	return plv->plv;
+}
+
+/*=======================================================================*/
+/*RETORNA LISTA - FUNCAO QUE RETORNA A LISTA DA STRUCT                   */
+/*IN: PALAVRA   OUT: LISTA                                               */
+/*=======================================================================*/
+Lista retornaLista(Palavra plv)
+{
+	return plv->ocorrencias;
 }

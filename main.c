@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "openHash.h"
+//#include "openHash.h"
+#include "hashEncadeada.h"
 #include "indice.h"
 
 int main(int argc, char const *argv[])
@@ -28,13 +29,25 @@ int main(int argc, char const *argv[])
 	}
 	fclose(arqTeste1);
 	fclose(arqTeste2);
+	/*Fim da verificação de erros*/
 
+	/*Le a quantidade de palavras, cria a hash e o vetor*/
 	int quantPalavras = contaPalavrasChave(argv[1]);
-
+	char** vetor = criaVetor(quantPalavras);
 	Hash h = criaHash(quantPalavras);
 
-	criaIndice(h, argv[1], argv[2]);
+	/*Criação do indice*/
+	inserirPalavras(h, argv[1], vetor);
 
+	printaHash(h);
+
+	criaIndice(h, argv[2]);
+
+	geraSaida(h, argv[3], vetor, quantPalavras);
+	/*Fim da criação do indice*/
+
+
+	destroiVetor(vetor, quantPalavras);
 	destroiHash(h);
 
 	return 0;
