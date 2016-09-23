@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "openHash.h"
 #include "listadup.h"
 
@@ -25,15 +26,34 @@ struct palavra
 struct hash
 {
 	int tam;
+	int colisao;
 	struct palavra **vetor;
 };
 
+static int vetRand[32];
 
 /*=======================================================================*/
-/*FUNCAO HASH - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                   */
+/*FUNCAO HASH1 - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                   */
 /*IN: PALAVRA   OUT: POSICAO                                             */
 /*=======================================================================*/
-int funcaoHash(char* palavra, int tam)
+int funcaoHash1(char* palavra, int tam)
+{
+	unsigned long int ascii = 0;
+	int i;
+
+	for(i = 0; i < strlen(palavra); i++)
+	{
+		ascii = ascii + (palavra[i] * vetRand[i]);
+	}
+
+	return ascii % tam;
+}
+
+/*=======================================================================*/
+/*FUNCAO HASH2 - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                   */
+/*IN: PALAVRA   OUT: POSICAO                                             */
+/*=======================================================================*/
+int funcaoHash2(char* palavra, int tam)
 {
 	unsigned int ascii = 0;
 	int i;
@@ -47,18 +67,41 @@ int funcaoHash(char* palavra, int tam)
 }
 
 /*=======================================================================*/
+/*FUNCAO HASH2 - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                   */
+/*IN: PALAVRA   OUT: POSICAO                                             */
+/*=======================================================================*/
+int funcaoHash3(char* palavra, int tam)
+{
+	unsigned int ascii = 0;
+	int i;
+
+	for(i = 0; i < strlen(palavra); i++)
+	{
+		ascii = ascii + (palavra[i-1] * i + vetRand[i]);
+	}
+
+	return (ascii*ascii+5) % tam;
+}
+
+/*=======================================================================*/
 /*CRIA HASH - FUNCAO DE CRIACAO DA HASH                                  */
 /*IN: VOID   OUT: PONTEIRO PARA HASH                                     */
 /*=======================================================================*/
 Hash criaHash(int tam)
 {
+	srand(time(NULL));
 	int i;
 	Hash hash = (Hash) malloc(sizeof(struct hash));
 	hash->tam = tam;
+	hash->colisao = 0;
 	hash->vetor = (Palavra*) malloc(sizeof(Palavra)*tam);
 	for(i = 0; i < tam; i++)
 	{
 		hash->vetor[i] = NULL;
+	}
+	for(i = 0; i < 32; i++)
+	{
+		vetRand[i] = rand();
 	}
 	return hash;
 }
@@ -94,15 +137,30 @@ void destroiHash(Hash hash)
 /*=======================================================================*/
 Palavra insereHash(Hash hash, char* palavra)
 {
-	int posicao = funcaoHash(palavra, hash->tam);
-	int posicoesVerificadas = 1;
+	unsigned int posicao;
+	if(F == 1)
+		posicao = funcaoHash1(palavra, hash->tam);
+	else if(F == 2)
+		posicao = funcaoHash2(palavra, hash->tam);
+	else if(F == 3) 
+		posicao = funcaoHash3(palavra, hash->tam);
+
+	int posicoesVerificadas = 0;
 
 	if(buscaHash(hash, palavra) != NULL)
 		return NULL;
 
-	while(hash->vetor[posicao] != NULL || posicoesVerificadas == hash->tam)
+	while((hash->vetor[posicao] != NULL) && (posicoesVerificadas != hash->tam))
 	{
-		posicao = (posicao+1)%hash->tam;
+		if(C == 1)
+			posicao = (posicao+1)%hash->tam;
+		else if(C == 2)
+			posicao = (((posicao*posicao)+455)/45)%hash->tam;
+		else if(C == 3)
+		{
+			posicao = (posicao+2)%hash->tam;
+		}
+		hash->colisao++;
 		posicoesVerificadas++;
 	}
 
@@ -122,7 +180,14 @@ Palavra insereHash(Hash hash, char* palavra)
 /*=======================================================================*/
 Palavra buscaHash(Hash hash, char* palavra)
 {
-	int posicao = funcaoHash(palavra, hash->tam);
+	int posicao;
+	if(F == 1)
+		posicao = funcaoHash1(palavra, hash->tam);
+	else if(F == 2)
+		posicao = funcaoHash2(palavra, hash->tam);
+	else 
+		posicao = funcaoHash3(palavra, hash->tam);
+
 	int posicoesVerificadas = 0;
 	while(posicoesVerificadas < hash->tam)
 	{
@@ -193,4 +258,13 @@ char* retornaPalavra(Palavra plv)
 Lista retornaLista(Palavra plv)
 {
 	return plv->ocorrencias;
+}
+
+/*=======================================================================*/
+/*RETORNA COLISAO - FUNCAO QUE RETORNA QUANT DE COLISAO                  */
+/*IN: HASH   OUT: INT                                                    */
+/*=======================================================================*/
+int colisaoHash(Hash hash)
+{
+	return hash->colisao;
 }

@@ -13,7 +13,9 @@ typedef struct hash *Hash;
 
 extern Hash criaHash(int tam);
 extern void destroiHash(Hash hash);
-extern int funcaoHash(char* palavra, int tam);
+extern int funcaoHash1(char* palavra, int tam);
+extern int funcaoHash2(char* palavra, int tam);
+extern int funcaoHash3(char* palavra, int tam);
 extern Palavra insereHash(Hash hash, char* palavra);
 extern Palavra buscaHash(Hash hash, char* palavra);
 extern void insereOcorrencia(Hash hash, char* palavra, int linha);
@@ -21,5 +23,6 @@ extern int tamanhoHash(Hash hash);
 extern char* retornaPalavra(Palavra plv);
 extern Lista retornaLista(Palavra plv);
 void printaHash(Hash hash);
+int colisaoHash(Hash hash);
 
 #endif

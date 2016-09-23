@@ -7,8 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-//#include "openHash.h"
-#include "hashEncadeada.h"
+
+#include "openHash.h"	
+	
 #include "indice.h"
 
 static int comp(const void* p1, const void* p2)

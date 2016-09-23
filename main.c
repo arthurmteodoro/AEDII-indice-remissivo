@@ -7,8 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-//#include "openHash.h"
-#include "hashEncadeada.h"
+
+#include "openHash.h"
+
 #include "indice.h"
 
 int main(int argc, char const *argv[])
@@ -44,6 +45,7 @@ int main(int argc, char const *argv[])
 	geraSaida(h, argv[3], vetor, quantPalavras);
 	/*Fim da criação do indice*/
 
+	printf("A quantidade de colisoes foi de %d\n", colisaoHash(h));
 
 	destroiVetor(vetor, quantPalavras);
 	destroiHash(h);
