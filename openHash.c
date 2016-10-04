@@ -99,9 +99,12 @@ Hash criaHash(int tam)
 	{
 		hash->vetor[i] = NULL;
 	}
-	for(i = 0; i < 32; i++)
+	if(F != 2)
 	{
-		vetRand[i] = rand();
+		for(i = 0; i < 32; i++)
+		{
+			vetRand[i] = rand();
+		}
 	}
 	return hash;
 }
@@ -137,7 +140,7 @@ void destroiHash(Hash hash)
 /*=======================================================================*/
 Palavra insereHash(Hash hash, char* palavra)
 {
-	unsigned int posicao;
+	int posicao;
 	if(F == 1)
 		posicao = funcaoHash1(palavra, hash->tam);
 	else if(F == 2)
@@ -147,24 +150,27 @@ Palavra insereHash(Hash hash, char* palavra)
 
 	int posicoesVerificadas = 0;
 
-	if(buscaHash(hash, palavra) != NULL)
-		return NULL;
-
-	while((hash->vetor[posicao] != NULL) && (posicoesVerificadas != hash->tam))
+	while((hash->vetor[posicao] != NULL) && (posicoesVerificadas < hash->tam))
 	{
 		if(C == 1)
 			posicao = (posicao+1)%hash->tam;
 		else if(C == 2)
-			posicao = (((posicao*posicao)+455)/45)%hash->tam;
+			posicao = (posicao*posicao)%hash->tam;
 		else if(C == 3)
 		{
-			posicao = (posicao+2)%hash->tam;
+			posicao = posicao-1;
+			if(posicao < 0)
+			{
+				posicao = hash->tam-1;
+			}
+			else
+				posicao = posicao%hash->tam;
 		}
 		hash->colisao++;
 		posicoesVerificadas++;
 	}
 
-	if(posicoesVerificadas == hash->tam)
+	if(posicoesVerificadas > hash->tam)
 		return NULL;
 
 	hash->vetor[posicao] = (Palavra) malloc(sizeof(struct palavra));
@@ -189,14 +195,27 @@ Palavra buscaHash(Hash hash, char* palavra)
 		posicao = funcaoHash3(palavra, hash->tam);
 
 	int posicoesVerificadas = 0;
-	while(posicoesVerificadas < hash->tam)
+	while(posicoesVerificadas <= hash->tam)
 	{
 		if(hash->vetor[posicao] != NULL && !strcmp(hash->vetor[posicao]->plv,palavra))
 		{
-			return hash->vetor[posicao];
+			if(!strcmp(hash->vetor[posicao]->plv,palavra))
+				return hash->vetor[posicao];
 		}
-		posicao = (posicao+1)%hash->tam;
+		if(C == 1)
+			posicao = (posicao+1)%hash->tam;
+		else if(C == 2)
+			posicao = (posicao*posicao)%hash->tam;
+		else if(C == 3)
+		{
+			posicao = posicao-1;
+			if(posicao < 0)
+				posicao = hash->tam-1;
+			else
+				posicao = posicao%hash->tam;
+		}
 		posicoesVerificadas++;
+
 	}
 	return NULL;
 }

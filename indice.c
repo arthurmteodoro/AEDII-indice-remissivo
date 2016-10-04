@@ -8,7 +8,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "openHash.h"	
+//#include "openHash.h"	
+#include "hashEncadeada.h"
 	
 #include "indice.h"
 

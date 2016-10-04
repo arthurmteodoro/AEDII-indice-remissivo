@@ -7,8 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
-#include "openHash.h"
+//#include "openHash.h"	
+#include "hashEncadeada.h"
 
 #include "indice.h"
 
@@ -33,9 +35,11 @@ int main(int argc, char const *argv[])
 	/*Fim da verificação de erros*/
 
 	/*Le a quantidade de palavras, cria a hash e o vetor*/
+	float inicio = (double)clock()/CLOCKS_PER_SEC;
 	int quantPalavras = contaPalavrasChave(argv[1]);
+	int tamHash = quantPalavras*0.5;
 	char** vetor = criaVetor(quantPalavras);
-	Hash h = criaHash(quantPalavras);
+	Hash h = criaHash(tamHash);
 
 	/*Criação do indice*/
 	inserirPalavras(h, argv[1], vetor);
@@ -49,6 +53,9 @@ int main(int argc, char const *argv[])
 
 	destroiVetor(vetor, quantPalavras);
 	destroiHash(h);
+	float fim = (double)clock()/CLOCKS_PER_SEC;
+	float tempo = fim - inicio;
+	printf("O tempo total foi %f\n", tempo);
 
 	return 0;
 }
