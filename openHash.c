@@ -150,17 +150,21 @@ Palavra insereHash(Hash hash, char* palavra)
 
 	int posicoesVerificadas = 0;
 
-	while((hash->vetor[posicao] != NULL) && (posicoesVerificadas < hash->tam))
+	while((hash->vetor[posicao] != NULL))
 	{
 		if(C == 1)
 			posicao = (posicao+1)%hash->tam;
 		else if(C == 2)
-			posicao = (posicao*posicao)%hash->tam;
+		{
+			posicao = (posicao+3)%hash->tam;
+			if(hash->vetor[posicao] != NULL)
+				posicao = (posicao+1)%hash->tam;
+		}
 		else if(C == 3)
 		{
 			posicao = posicao-1;
 			if(posicao < 0)
-			{
+			{ 
 				posicao = hash->tam-1;
 			}
 			else
@@ -168,10 +172,10 @@ Palavra insereHash(Hash hash, char* palavra)
 		}
 		hash->colisao++;
 		posicoesVerificadas++;
-	}
 
-	if(posicoesVerificadas > hash->tam)
-		return NULL;
+		//if(posicoesVerificadas > hash->tam)
+		//	return NULL;
+	}
 
 	hash->vetor[posicao] = (Palavra) malloc(sizeof(struct palavra));
 	strcpy(hash->vetor[posicao]->plv, palavra);
@@ -203,9 +207,15 @@ Palavra buscaHash(Hash hash, char* palavra)
 				return hash->vetor[posicao];
 		}
 		if(C == 1)
+		{
 			posicao = (posicao+1)%hash->tam;
+		}
 		else if(C == 2)
-			posicao = (posicao*posicao)%hash->tam;
+		{
+			posicao = (posicao+3)%hash->tam;
+			if(hash->vetor[posicao] != NULL)
+				posicao = (posicao+1)%hash->tam;
+		}	
 		else if(C == 3)
 		{
 			posicao = posicao-1;

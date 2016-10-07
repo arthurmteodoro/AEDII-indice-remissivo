@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "hashEncadeada.h"
 #include "listadup.h"
 
@@ -91,6 +92,7 @@ int funcaoHash3(char* palavra, int tam)
 Hash criaHash(int tam)
 {
 	int i;
+	srand(time(NULL));
 	Hash hash = (Hash) malloc(sizeof(struct hash));
 	hash->tam = tam;
 	hash->colisao = 0;
@@ -98,6 +100,13 @@ Hash criaHash(int tam)
 	for(i = 0; i < tam; i++)
 	{
 		hash->vetor[i] = NULL;
+	}
+	if(F != 2)
+	{
+		for(i = 0; i < 32; i++)
+		{
+			vetRand[i] = rand();
+		}
 	}
 	return hash;
 }
@@ -137,7 +146,7 @@ Palavra insereHash(Hash hash, char* palavra)
 		posicao = funcaoHash1(palavra, hash->tam);
 	else if(F == 2)
 		posicao = funcaoHash2(palavra, hash->tam);
-	else 
+	else if(F == 3) 
 		posicao = funcaoHash3(palavra, hash->tam);
 
 	Palavra inserir = (Palavra) malloc(sizeof(struct palavra));

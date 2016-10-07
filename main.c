@@ -37,7 +37,10 @@ int main(int argc, char const *argv[])
 	/*Le a quantidade de palavras, cria a hash e o vetor*/
 	float inicio = (double)clock()/CLOCKS_PER_SEC;
 	int quantPalavras = contaPalavrasChave(argv[1]);
-	int tamHash = quantPalavras*0.5;
+	int tamHash = quantPalavras;
+
+	//tamHash = quantPalavras*(TAM/100.00);
+
 	char** vetor = criaVetor(quantPalavras);
 	Hash h = criaHash(tamHash);
 

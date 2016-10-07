@@ -13,6 +13,10 @@
 	
 #include "indice.h"
 
+/*=======================================================================*/
+/*COMP - FUNCAO RESPONSAVEL POR COMPARACAO DO QUICKSORT                  */
+/*IN: PONTEIRA DA PALAVRA 1 E 2   OUT: INT                               */
+/*=======================================================================*/
 static int comp(const void* p1, const void* p2)
 {
 	char** plv1 = (char**)p1;
@@ -21,6 +25,10 @@ static int comp(const void* p1, const void* p2)
 	return strcmp((*plv1), (*plv2));
 }
 
+/*=======================================================================*/
+/*CONTA PALAVRAS CHAVE - CONTA QUANTAS PALAVRAS CHAVE EXISTE             */
+/*IN: ARQUIVO PALAVRAS CHAVE   OUT: QUANTIDADE                           */
+/*=======================================================================*/
 int contaPalavrasChave(const char* arqPalvrasChave)
 {
 	FILE *arq = fopen(arqPalvrasChave, "rt");
@@ -39,6 +47,10 @@ int contaPalavrasChave(const char* arqPalvrasChave)
 	return cont;
 }
 
+/*=======================================================================*/
+/*INSERIR PALAVRAS - INSERE AS PALAVRAS NA HASH E NO VETOR               */
+/*IN: HASH, ARQUIVO DE PALAVRAS, VETOR DE STRING  OUT: VOID              */
+/*=======================================================================*/
 void inserirPalavras(Hash hash, const char* arqPalvrasChave, char** vetor)
 {
 	FILE* pvlChaves = fopen(arqPalvrasChave, "rt");
@@ -62,6 +74,10 @@ void inserirPalavras(Hash hash, const char* arqPalvrasChave, char** vetor)
 	fclose(pvlChaves);
 }
 
+/*=======================================================================*/
+/*BUSCA PALAVRAS - FUNCAO RESPONSAVEL POR BUSCAR PALAVRAS NA LINHA       */
+/*IN: INICIO, FIM E LINHA   OUT: PALAVRA ENCONTRADA                      */
+/*=======================================================================*/
 char* buscaPalavra(int *inicio, int *fim, char* frase)
 {
 	/*As palavras sao delimitados por letras seguidades de digitos ou nao e ter tamanho de 32 char*/
@@ -93,6 +109,10 @@ char* buscaPalavra(int *inicio, int *fim, char* frase)
 	return plv;
 }
 
+/*=======================================================================*/
+/*CRIA INDICE - FUNCAO RESPONSAVEL POR CRIAR O INDICE                    */
+/*IN: HASH, ARQUIVO COM TEXTO   OUT: VOID                                */
+/*=======================================================================*/
 void criaIndice(Hash hash, const char* texto)
 {
 	int Contlinha = 0;
@@ -129,6 +149,10 @@ void criaIndice(Hash hash, const char* texto)
 	fclose(arq);
 }
 
+/*=======================================================================*/
+/*FILTRAGEM DE PALAVRAS - FUNCAO RESPONSAVEL POR TRANSFORNAR EM LOWER    */
+/*IN: STRING   OUT: VOID                                                   */
+/*=======================================================================*/
 void filtragemPalavras(char* palavra)
 {
 	int i;
@@ -141,6 +165,10 @@ void filtragemPalavras(char* palavra)
 	}
 }
 
+/*=======================================================================*/
+/*CRIA VETOR - FUNCAO RESPONSAVEL POR ALOCAR VETOR DE STRING             */
+/*IN: TAMANHO   OUT: VETOR DE STRING CRIADO                              */
+/*=======================================================================*/
 char** criaVetor(int tam)
 {
 	int i;
@@ -153,6 +181,10 @@ char** criaVetor(int tam)
 	return vetor;
 }
 
+/*=======================================================================*/
+/*DESTROI VETOR - FUNCAO RESPONSAVEL POR DESALOCAR VETOR                 */
+/*IN: VETOR, TAMANHO   OUT: VOID                                         */
+/*=======================================================================*/
 void destroiVetor(char** vetor, int tam)
 {
 	int i;
@@ -164,6 +196,10 @@ void destroiVetor(char** vetor, int tam)
 	vetor = NULL;
 }
 
+/*=======================================================================*/
+/*GERA SAIDA - FUNCAO RESPONSAVEL POR GERAR SAIDA                        */
+/*IN: HASH, ARQUIVO DE SAIDA, VETOR E TAMANHO DO VETOR   OUT: VOID       */
+/*=======================================================================*/
 void geraSaida(Hash hash, const char* arq, char** vetor, int tam)
 {
 	FILE* arquivo = fopen(arq, "wt");
