@@ -33,7 +33,7 @@ struct hash
 static int vetRand[32];
 
 /*=======================================================================*/
-/*FUNCAO HASH1 - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                   */
+/*FUNCAO HASH1 - FUNCAO RESPONSAVEL POR DEFINIR POSICAO                  */
 /*IN: PALAVRA   OUT: POSICAO                                             */
 /*=======================================================================*/
 int funcaoHash1(char* palavra, int tam)

@@ -9,7 +9,8 @@
 #include <ctype.h>
 
 //#include "openHash.h"	
-#include "hashEncadeada.h"
+#include "lista.h"
+//#include "hashEncadeada.h"
 	
 #include "indice.h"
 
@@ -206,7 +207,8 @@ void geraSaida(Hash hash, const char* arq, char** vetor, int tam)
 
 	qsort(vetor, tam, sizeof(char*), comp);
 
-	for(int i = 0; i < tam; i++)
+	int i;
+	for(i = 0; i < tam; i++)
 	{
 		Palavra palavra = buscaHash(hash, vetor[i]);
 		fprintf(arquivo, "%s - ", retornaPalavra(palavra));
