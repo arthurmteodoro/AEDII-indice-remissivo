@@ -21,7 +21,6 @@ struct palavra
 {
 	char plv[33];
 	Lista ocorrencias;
-	struct palavra *prox;
 };
 
 struct no

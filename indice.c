@@ -8,8 +8,8 @@
 #include <string.h>
 #include <ctype.h>
 
-//#include "openHash.h"	
-#include "lista.h"
+#include "openHash.h"	
+//#include "lista.h"
 //#include "hashEncadeada.h"
 	
 #include "indice.h"
@@ -152,7 +152,7 @@ void criaIndice(Hash hash, const char* texto)
 
 /*=======================================================================*/
 /*FILTRAGEM DE PALAVRAS - FUNCAO RESPONSAVEL POR TRANSFORNAR EM LOWER    */
-/*IN: STRING   OUT: VOID                                                   */
+/*IN: STRING   OUT: VOID                                                 */
 /*=======================================================================*/
 void filtragemPalavras(char* palavra)
 {

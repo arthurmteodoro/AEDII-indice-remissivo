@@ -9,8 +9,8 @@
 #include <ctype.h>
 #include <time.h>
 
-//#include "openHash.h"	
-#include "lista.h"
+#include "openHash.h"	
+//#include "lista.h"
 //#include "hashEncadeada.h"
 
 #include "indice.h"
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
 	int quantPalavras = contaPalavrasChave(argv[1]);
 	int tamHash = quantPalavras;
 
-	/*==========COMENTAR CASO USO DA OPENHASH OU LISTA ENCADEADA =============*/
+	/*============================ COMENTAR CASO USO DA OPENHASH OU LISTA ENCADEADA ================================*/
 	//tamHash = quantPalavras*(TAM/100.00);
 
 	char** vetor = criaVetor(quantPalavras);
